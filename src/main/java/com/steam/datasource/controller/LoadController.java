@@ -1,0 +1,109 @@
+package com.steam.datasource.controller;
+
+import com.steam.datasource.rout.DynamicRoutingDataSource;
+import com.steam.datasource.creator.BasicDataSourceCreator;
+import com.steam.datasource.creator.DataSourceCreator;
+import com.steam.datasource.creator.DruidDataSourceCreator;
+import com.steam.datasource.creator.HikariDataSourceCreator;
+import com.steam.datasource.creator.JndiDataSourceCreator;
+import com.steam.datasource.dto.DataSourceDTO;
+import com.steam.datasource.spring.boot.autoconfigure.DataSourceProperty;
+import java.util.Set;
+import javax.sql.DataSource;
+
+import io.swagger.annotations.Api;
+import io.swagger.annotations.ApiOperation;
+import lombok.AllArgsConstructor;
+import org.springframework.beans.BeanUtils;
+import org.springframework.validation.annotation.Validated;
+import org.springframework.web.bind.annotation.DeleteMapping;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RestController;
+
+/**
+ * @author ZhangShizhu
+ */
+@RestController
+@AllArgsConstructor
+@RequestMapping("/datasources")
+@Api(tags = "添加删除数据源")
+public class LoadController {
+
+  private final DataSource dataSource;
+  private final DataSourceCreator dataSourceCreator;
+  private final BasicDataSourceCreator basicDataSourceCreator;
+  private final JndiDataSourceCreator jndiDataSourceCreator;
+  private final DruidDataSourceCreator druidDataSourceCreator;
+  private final HikariDataSourceCreator hikariDataSourceCreator;
+
+  @GetMapping
+  @ApiOperation("获取当前所有数据源")
+  public Set<String> now() {
+    DynamicRoutingDataSource ds = (DynamicRoutingDataSource) dataSource;
+    return ds.getCurrentDataSources().keySet();
+  }
+
+  @PostMapping("/add")
+  @ApiOperation("通用添加数据源（推荐）")
+  public Set<String> add(@Validated @RequestBody DataSourceDTO dto) {
+    DataSourceProperty dataSourceProperty = new DataSourceProperty();
+    BeanUtils.copyProperties(dto, dataSourceProperty);
+    DynamicRoutingDataSource ds = (DynamicRoutingDataSource) dataSource;
+    DataSource dataSource = dataSourceCreator.createDataSource(dataSourceProperty);
+    ds.addDataSource(dto.getPollName(), dataSource);
+    return ds.getCurrentDataSources().keySet();
+  }
+
+  @PostMapping("/addBasic")
+  @ApiOperation(value = "添加基础数据源", notes = "调用Springboot内置方法创建数据源，兼容1,2")
+  public Set<String> addBasic(@Validated @RequestBody DataSourceDTO dto) {
+    DataSourceProperty dataSourceProperty = new DataSourceProperty();
+    BeanUtils.copyProperties(dto, dataSourceProperty);
+    DynamicRoutingDataSource ds = (DynamicRoutingDataSource) dataSource;
+    DataSource dataSource = basicDataSourceCreator.createDataSource(dataSourceProperty);
+    ds.addDataSource(dto.getPollName(), dataSource);
+    return ds.getCurrentDataSources().keySet();
+  }
+
+  @PostMapping("/addJndi")
+  @ApiOperation("添加JNDI数据源")
+  public Set<String> addJndi(String pollName, String jndiName) {
+    DynamicRoutingDataSource ds = (DynamicRoutingDataSource) dataSource;
+    DataSource dataSource = jndiDataSourceCreator.createDataSource(jndiName);
+    ds.addDataSource(pollName, dataSource);
+    return ds.getCurrentDataSources().keySet();
+  }
+
+  @PostMapping("/addDruid")
+  @ApiOperation("基础Druid数据源")
+  public Set<String> addDruid(@Validated @RequestBody DataSourceDTO dto) {
+    DataSourceProperty dataSourceProperty = new DataSourceProperty();
+    BeanUtils.copyProperties(dto, dataSourceProperty);
+    DynamicRoutingDataSource ds = (DynamicRoutingDataSource) dataSource;
+    DataSource dataSource = druidDataSourceCreator.createDataSource(dataSourceProperty);
+    ds.addDataSource(dto.getPollName(), dataSource);
+    return ds.getCurrentDataSources().keySet();
+  }
+
+  @PostMapping("/addHikariCP")
+  @ApiOperation("基础HikariCP数据源")
+  public Set<String> addHikariCP(@Validated @RequestBody DataSourceDTO dto) {
+    DataSourceProperty dataSourceProperty = new DataSourceProperty();
+    BeanUtils.copyProperties(dto, dataSourceProperty);
+    DynamicRoutingDataSource ds = (DynamicRoutingDataSource) dataSource;
+    DataSource dataSource = hikariDataSourceCreator.createDataSource(dataSourceProperty);
+    ds.addDataSource(dto.getPollName(), dataSource);
+    return ds.getCurrentDataSources().keySet();
+  }
+
+  @DeleteMapping
+  @ApiOperation("删除数据源")
+  public String remove(String name) {
+    DynamicRoutingDataSource ds = (DynamicRoutingDataSource) dataSource;
+    ds.removeDataSource(name);
+    return "删除成功";
+  }
+}
