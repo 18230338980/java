@@ -28,7 +28,7 @@ import org.springframework.web.bind.annotation.RestController;
  */
 @RestController
 @AllArgsConstructor
-@RequestMapping("/datasources")
+@RequestMapping("/data")
 @Api(tags = "添加删除数据源")
 public class LoadController {
 

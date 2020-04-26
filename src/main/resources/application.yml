@@ -1,3 +1,9 @@
+#--------------------------端口号--------------------------#
+server:
+  port: 8080
+#--------------------------端口号--------------------------#
+
+#--------------------------数据源--------------------------#
 spring:
   datasource:
     dynamic:
@@ -44,33 +50,24 @@ spring:
         master:
           username: root
           password: "LYIXYTfaq9ug7bqAfcoU1gQovp/Atx7wsdJ5D7oFN5QMqZUI4OGHyMkCA7IxtYAIQr/8cMVFGo9oa/mqtMrzmQ=="
-          url: jdbc:mysql://127.0.0.1:3306/master
-          driver-class-name: com.mysql.jdbc.Driver
+          url: jdbc:mysql://127.0.0.1:3306/steam?characterEncoding=utf-8&serverTimezone=UTC&useSSL=false
+          driver-class-name: com.mysql.cj.jdbc.Driver
           #schema: db/schema.sql
+          type: com.alibaba.druid.pool.DruidDataSource
           druid: #这里可以重写默认值
             initial-size: 5
             public-key: MFwwDQYJKoZIhvcNAQEBBQADSwAwSAJBAKUVA/IL/iON8f63bv2i/pIAK+1sXY228slLkTKrI9axwBMIoPV7+PqdRTv6uqMl3j6nei0EDBWEu/Wp/qOQ/ScCAwEAAQ==
-#        slave_1:
-#          username: sa
-#          password: "123456"
-#          url: jdbc:h2:mem:test
-#          driver-class-name: org.h2.Driver
-#          druid:
-#            initial-size: 6
-#        slave_2:
-#          username: sa
-#          password: "123456"
-#          url: jdbc:h2:mem:test
-#          driver-class-name: org.h2.Driver
-#        slave_3:
-#          username: sa
-#          password: "123456"
-#          url: jdbc:h2:mem:test
-#          driver-class-name: org.h2.Driver
-#      druid:
-#        wall:
-#          multi-statement-allow: true
+        slave_1:
+          username: root
+          password: "123456"
+          url: jdbc:mysql://127.0.0.1:3307/steam?characterEncoding=utf-8&serverTimezone=UTC&useSSL=false
+          driver-class-name: com.mysql.cj.jdbc.Driver
+          type: com.zaxxer.hikari.HikariDataSource
+#--------------------------数据源--------------------------#
+
+#--------------------------日志--------------------------#
 logging:
   level:
     com.steam: debug
     org.springframework.jdbc.datasource.init: debug
+#--------------------------日志--------------------------#

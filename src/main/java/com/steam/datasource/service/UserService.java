@@ -7,9 +7,15 @@ import java.util.List;
 
 public interface UserService {
 
-  void addUser(User user);
+    void addUser(User user);
 
-  List selectUsersFromDs();
+    List selectUsersFromDs();
 
-  List selectUserFromDsGroup();
+    List selectUsersFromMasterDs();
+
+    List selectUsersFromSlaveDs();
+
+    List selectUserFromDsGroup();
+
+    List selectUsersFromManyDs();
 }
