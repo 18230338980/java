@@ -12,19 +12,19 @@ import lombok.Data;
 public class DataSourceDTO {
 
   @NotBlank
-  @ApiModelProperty(value = "连接池名称", example = "test")
+  @ApiModelProperty(value = "连接池名称", example = "master_2")
   private String pollName;
 
   @NotBlank
-  @ApiModelProperty(value = "JDBC driver", example = "org.h2.Driver")
+  @ApiModelProperty(value = "JDBC driver", example = "com.mysql.cj.jdbc.Driver")
   private String driverClassName;
 
   @NotBlank
-  @ApiModelProperty(value = "JDBC url 地址", example = "jdbc:h2:mem:test10")
+  @ApiModelProperty(value = "JDBC url 地址", example = "jdbc:mysql://127.0.0.1:3306/test?characterEncoding=utf-8&serverTimezone=UTC&useSSL=false")
   private String url;
 
   @NotBlank
-  @ApiModelProperty(value = "JDBC 用户名", example = "sa")
+  @ApiModelProperty(value = "JDBC 用户名", example = "root")
   private String username;
 
   @ApiModelProperty(value = "JDBC 密码")

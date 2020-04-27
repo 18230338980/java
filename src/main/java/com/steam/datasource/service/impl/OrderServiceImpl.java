@@ -30,8 +30,8 @@ public class OrderServiceImpl implements OrderService {
 
   @DS("master")
   @Override
-  @Transactional
-  /*分布式事务 seata @GlobalTransactional*/
+  /*@Transactional
+    @GlobalTransactional*/
   public void placeOrder(PlaceOrderRequest request) {
     log.info("=============ORDER START=================");
     Long userId = request.getUserId();
