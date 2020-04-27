@@ -26,8 +26,8 @@ dynamic-datasource 是一个基于springboot的快速集成多数据源的启动
 5. 提供自定义数据源来源接口(默认使用yml或properties配置)。
 6. 提供项目启动后增减数据源方案。
 7. 提供Mybatis环境下的  **纯读写分离** 方案。
-9. 提供多层数据源嵌套切换。（ServiceA >>>  ServiceB >>> ServiceC，每个Service都是不同的数据源）（有问题）
-11. **基于seata的分布式事务支持。**
+8. 提供多层数据源嵌套切换。（ServiceA >>>  ServiceB >>> ServiceC，每个Service都是不同的数据源）
+9. **基于seata的分布式事务支持。**
 
 # 约定
 

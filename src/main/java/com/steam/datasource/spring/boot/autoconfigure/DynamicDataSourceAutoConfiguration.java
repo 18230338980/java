@@ -50,13 +50,19 @@ import java.util.Map;
 @Configuration
 @AllArgsConstructor
 @EnableConfigurationProperties(DynamicDataSourceProperties.class)
+// 在spring-jdbc的自动配置之前先定义好datasource
 @AutoConfigureBefore(DataSourceAutoConfiguration.class)
+// 引入druid的自动配置类
 @Import(value = {DruidDynamicDataSourceConfiguration.class, DynamicDataSourceCreatorAutoConfiguration.class})
 @ConditionalOnProperty(prefix = DynamicDataSourceProperties.PREFIX, name = "enabled", havingValue = "true", matchIfMissing = true)
 public class DynamicDataSourceAutoConfiguration {
 
   private final DynamicDataSourceProperties properties;
 
+  /**
+   * 用于生成一个“库名->数据源”的map
+   * @return
+   */
   @Bean
   @ConditionalOnMissingBean
   public DynamicDataSourceProvider dynamicDataSourceProvider() {
@@ -70,6 +76,15 @@ public class DynamicDataSourceAutoConfiguration {
     return properties.getStrategy().newInstance();
   }
 
+  /**
+   * 定义DataSource的Bean，DynamicRoutingDataSource利用DynamicDataSourceProvider生成了“库名->数据源”的map，DynamicDataSourceStrategy默认为LoadBalanceDynamicDataSourceStrategy
+   * 在获取真实数据源的时候，再根据ThreadLocal里的变量，决定选取map中的那个datasource
+   * 注意properties.getPrimary()，这个默认是master，即默认走主库
+   *
+   * @param dynamicDataSourceProvider
+   * @param dynamicDataSourceStrategy
+   * @return
+   */
   @Bean
   @ConditionalOnMissingBean
   public DataSource dataSource(DynamicDataSourceProvider dynamicDataSourceProvider, DynamicDataSourceStrategy dynamicDataSourceStrategy) {
@@ -83,6 +98,12 @@ public class DynamicDataSourceAutoConfiguration {
     return dataSource;
   }
 
+  /**
+   * @Ds 注解的advisor，只要在类或者方法上，增加了@Ds注解，就会被拦截：
+   * 在方法执行前根据@Ds的value，往ThreadLocal设置要访问的数据源；
+   * 在方法执行结束后，清除ThreadLocal中的值。
+   * @return
+   */
   @Bean
   @ConditionalOnMissingBean
   public DynamicDataSourceAnnotationAdvisor dynamicDatasourceAnnotationAdvisor() {

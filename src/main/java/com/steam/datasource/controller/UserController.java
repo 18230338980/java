@@ -35,28 +35,34 @@ public class UserController {
         userService.addUser(user);
     }
 
+
     @GetMapping("/select")
+    @ApiOperation("默认数据源")
     public Object selectUsersFromDs() {
         return userService.selectUsersFromDs();
     }
 
     @GetMapping("/select/master")
+    @ApiOperation("指定主数据源")
     public Object selectUsersFromMasterDs() {
         return userService.selectUsersFromMasterDs();
     }
 
     @GetMapping("/select/slave")
+    @ApiOperation("指定从数据源")
     public Object selectUsersFromSlaveDs() {
         return userService.selectUsersFromSlaveDs();
     }
 
-    @GetMapping("/select/many")
-    public Object selectUsersFromManyDs() {
-        return userService.selectUsersFromManyDs();
-    }
-
     @GetMapping("/select/ds/group")
+    @ApiOperation("指定组数据源，采用策略动态选择数据源")
     public Object selectUserFromDsGroup() {
         return userService.selectUserFromDsGroup();
+    }
+
+    @GetMapping("/select/many")
+    @ApiOperation("同一方法内数据源切换")
+    public Object selectUsersFromManyDs() {
+        return userService.selectUsersFromManyDs();
     }
 }

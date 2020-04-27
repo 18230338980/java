@@ -3,71 +3,34 @@ server:
   port: 8080
 #--------------------------端口号--------------------------#
 
-#--------------------------数据源--------------------------#
 spring:
   datasource:
     dynamic:
+      primary: master
+      strict: true
+#      seata: false
       p6spy: true
-      druid:
-        filters: stat
-      #      druid: #以下是全局默认值，可以全局更改
-      #        initial-size:
-      #        max-active:
-      #        min-idle:
-      #        max-wait:
-      #        time-between-eviction-runs-millis:
-      #        time-between-log-stats-millis:
-      #        stat-sqlmax-size:
-      #        min-evictable-idle-time-millis:
-      #        max-evictable-idle-time-millis:
-      #        test-while-idle:
-      #        test-on-borrow:
-      #        test-on-return:
-      #        validation-query:
-      #        validation-query-timeout:
-      #        use-global-datasource-stat:
-      #        async-init:
-      #        clear-filters-enable:
-      #        reset-stat-enable:
-      #        not-full-timeout-retry-count:
-      #        max-wait-thread-count:
-      #        fail-fast:
-      #        phyTimeout-millis:
-      #        keep-alive:
-      #        pool-prepared-statements:
-      #        init-variants:
-      #        init-global-variants:
-      #        use-unfair-lock:
-      #        kill-when-socket-read-timeout:
-      #        connection-properties:
-      #        max-pool-prepared-statement-per-connection-size:
-      #        init-connection-sqls:
-      #        share-prepared-statements:
-      #        connection-errorretry-attempts:
-      #        break-after-acquire-failure:
-      #        filters: stat,wall # 注意这个值和druid原生不一致，默认启动了stat,wall
       datasource:
         master:
           username: root
           password: "LYIXYTfaq9ug7bqAfcoU1gQovp/Atx7wsdJ5D7oFN5QMqZUI4OGHyMkCA7IxtYAIQr/8cMVFGo9oa/mqtMrzmQ=="
           url: jdbc:mysql://127.0.0.1:3306/steam?characterEncoding=utf-8&serverTimezone=UTC&useSSL=false
           driver-class-name: com.mysql.cj.jdbc.Driver
-          #schema: db/schema.sql
+          #schema: db/schema-user.sql
           type: com.alibaba.druid.pool.DruidDataSource
           druid: #这里可以重写默认值
             initial-size: 5
             public-key: MFwwDQYJKoZIhvcNAQEBBQADSwAwSAJBAKUVA/IL/iON8f63bv2i/pIAK+1sXY228slLkTKrI9axwBMIoPV7+PqdRTv6uqMl3j6nei0EDBWEu/Wp/qOQ/ScCAwEAAQ==
         slave_1:
           username: root
-          password: "123456"
+          password: 123456
           url: jdbc:mysql://127.0.0.1:3307/steam?characterEncoding=utf-8&serverTimezone=UTC&useSSL=false
           driver-class-name: com.mysql.cj.jdbc.Driver
           type: com.zaxxer.hikari.HikariDataSource
-#--------------------------数据源--------------------------#
-
-#--------------------------日志--------------------------#
+#  cloud:
+#    alibaba:
+#      seata:
+#        tx-service-group: my_test_tx_group
 logging:
   level:
     com.steam: debug
-    org.springframework.jdbc.datasource.init: debug
-#--------------------------日志--------------------------#

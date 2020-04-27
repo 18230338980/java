@@ -93,7 +93,6 @@ public class DbHealthIndicator extends AbstractHealthIndicator {
 
 
   private Integer query(DataSource dataSource) {
-    //todo 这里应该可以配置或者可重写？
     List<Integer> results = new JdbcTemplate(dataSource).query("SELECT 1", new RowMapper<Integer>() {
 
       @Override

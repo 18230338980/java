@@ -1,4 +1,4 @@
-  package com.steam.datasource.mapper;
+  package com.steam.datasource.dao;
 
 import com.steam.datasource.entity.User;
 import org.apache.ibatis.annotations.Insert;

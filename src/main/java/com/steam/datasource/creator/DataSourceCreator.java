@@ -35,7 +35,7 @@ import static com.steam.datasource.support.DdConstants.HIKARI_DATASOURCE;
  */
 @Slf4j
 @Setter
-public class DataSourceCreator {
+public class  DataSourceCreator {
 
   /**
    * 是否存在druid
@@ -95,10 +95,16 @@ public class DataSourceCreator {
         dataSource = createBasicDataSource(dataSourceProperty);
       }
     }
+    //初始化表结构和表数据
     this.runScrip(dataSourceProperty, dataSource);
     return dataSource;
   }
 
+  /**
+   * 初始化表结构和表数据（若配置scheme和data）
+   * @param dataSourceProperty
+   * @param dataSource
+   */
   private void runScrip(DataSourceProperty dataSourceProperty, DataSource dataSource) {
     String schema = dataSourceProperty.getSchema();
     String data = dataSourceProperty.getData();

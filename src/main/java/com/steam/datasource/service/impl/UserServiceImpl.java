@@ -3,9 +3,10 @@ package com.steam.datasource.service.impl;
 
 import com.steam.datasource.annotation.DS;
 import com.steam.datasource.entity.User;
-import com.steam.datasource.mapper.UserMapper;
+import com.steam.datasource.dao.UserMapper;
 import com.steam.datasource.service.UserService;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import javax.annotation.Resource;
@@ -17,6 +18,7 @@ import java.util.List;
 @Slf4j
 @Service
 public class UserServiceImpl implements UserService {
+    @Autowired UserService userService;
 
     @Resource
     private UserMapper userMapper;
@@ -50,9 +52,9 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
+    @DS("master")
     public List selectUsersFromManyDs() {
-        selectUsersFromMasterDs();
-        selectUsersFromSlaveDs();
-        return null;
+        userService.selectUsersFromSlaveDs();
+        return userMapper.selectUsers(1);
     }
 }

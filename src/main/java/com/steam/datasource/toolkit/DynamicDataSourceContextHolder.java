@@ -36,6 +36,12 @@ public final class DynamicDataSourceContextHolder {
    * 其中A的某个业务要调B的方法，B的方法需要调用C的方法。一级一级调用切换，形成了链。
    * 传统的只设置当前线程的方式不能满足此业务需求，必须模拟栈，后进先出。
    * </pre>
+   *
+   *为什么要用ThreadLocal
+   * <pre>
+   * ThreadLocal 用于提供线程局部变量，在多线程环境可以保证各个线程里的变量独立于其它线程里的变量。
+   * 也就是说 ThreadLocal 可以为每个线程创建一个【单独的变量副本】，相当于线程的 private static 类型变量。
+   * </pre>
    */
   @SuppressWarnings("unchecked")
   private static final ThreadLocal<Deque<String>> LOOKUP_KEY_HOLDER = new ThreadLocal() {

@@ -60,6 +60,10 @@ public class DynamicDataSourceAnnotationAdvisor extends AbstractPointcutAdvisor 
     }
   }
 
+  /**
+   * 定义切入点，就是添加了@Ds注解的类和方法
+   * @return
+   */
   private Pointcut buildPointcut() {
     Pointcut cpc = new AnnotationMatchingPointcut(DS.class, true);
     Pointcut mpc = AnnotationMatchingPointcut.forMethodAnnotation(DS.class);

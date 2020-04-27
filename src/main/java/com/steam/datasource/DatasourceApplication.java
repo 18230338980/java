@@ -9,11 +9,11 @@ import org.springframework.boot.autoconfigure.SpringBootApplication;
  * @author ZhangShizhu
  */
 @SpringBootApplication(exclude = DruidDataSourceAutoConfigure.class)
-@MapperScan("com.steam.datasource.mapper")
+@MapperScan("com.steam.datasource.dao")
 public class DatasourceApplication {
 
     public static void main(String[] args) {
-        SpringApplication.run(DatasourceApplication.class, args);
+        SpringApplication. run(DatasourceApplication.class, args);
     }
 
 }

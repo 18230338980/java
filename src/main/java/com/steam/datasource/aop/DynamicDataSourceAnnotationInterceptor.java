@@ -39,13 +39,21 @@ public class DynamicDataSourceAnnotationInterceptor implements MethodInterceptor
   @Override
   public Object invoke(MethodInvocation invocation) throws Throwable {
     try {
+      //拿到指定的数据源名称，添加到deque的头部
       DynamicDataSourceContextHolder.push(determineDatasource(invocation));
       return invocation.proceed();
     } finally {
+      //执行完方法，将指定的数据源名称移除，实现嵌套
       DynamicDataSourceContextHolder.poll();
     }
   }
 
+  /**
+   * 从类上或方法上的@Ds注解获取指定的数据源
+   * @param invocation
+   * @return
+   * @throws Throwable
+   */
   private String determineDatasource(MethodInvocation invocation) throws Throwable {
     Method method = invocation.getMethod();
     DS ds = method.isAnnotationPresent(DS.class) ? method.getAnnotation(DS.class)
