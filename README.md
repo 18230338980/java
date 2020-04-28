@@ -1,6 +1,8 @@
 # 原文
 https://github.com/baomidou/dynamic-datasource-spring-boot-starter
 
+# 本文
+https://github.com/18230338980/dynamic-datasource
 
 <p align="center">
 <img src="https://images.gitee.com/uploads/images/2019/0626/231046_f44892b9_709883.png" border="0" />
@@ -15,7 +17,39 @@ https://github.com/baomidou/dynamic-datasource-spring-boot-starter
 
 dynamic-datasource 是一个基于springboot的快速集成多数据源的启动器。
 
-其支持 **Jdk 1.8+,    SpringBoot 1.4.x  1.5.x   2.0.x**。
+# 目录结构
+
+```
+src─main
+     ├─java
+     │  └─com
+     │      └─steam
+     │          └─datasource
+     │              ├─annotation                       定义DS注解
+     │              ├─aop                              定义切入点
+     │              ├─common
+     │              ├─controller
+     │              ├─creator                          创建数据源
+     │              ├─dao
+     │              ├─dto
+     │              ├─entity
+     │              ├─exception                        
+     │              ├─provider                         提供数据源
+     │              ├─rout                             初始化/获取数据源
+     │              ├─service
+     │              │  └─impl
+     │              ├─spring
+     │              │  └─boot
+     │              │      └─autoconfigure             连接池配置
+     │              │          ├─druid                    
+     │              │          └─hikari
+     │              ├─strategy                         获取数据源策略
+     │              ├─support                          组件
+     │              └─toolkit                          
+     └─resources
+         ├─db                                          
+         └─META-INF                                    
+```
 
 # 特性
 
@@ -27,7 +61,7 @@ dynamic-datasource 是一个基于springboot的快速集成多数据源的启动
 6. 提供项目启动后增减数据源方案。
 7. 提供Mybatis环境下的  **纯读写分离** 方案。
 8. 提供多层数据源嵌套切换。（ServiceA >>>  ServiceB >>> ServiceC，每个Service都是不同的数据源）
-9. **基于seata的分布式事务支持。**
+9. **基于seata的分布式事务支持。**（未完成）
 
 # 约定
 
